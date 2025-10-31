@@ -1,11 +1,12 @@
 import os
 from pathlib import Path
-
+from dotenv import load_dotenv
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
-SECRET_KEY = 'django-insecure-+ox-uydhb)cgs^3jsii*x0w$z(g=p3=39-%vbrwa$!b+bg&y#f'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = True
 
@@ -58,8 +59,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'studytrack_new',
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASS'),
         'HOST': '127.0.0.1',
         'PORT':'3306',
     }
