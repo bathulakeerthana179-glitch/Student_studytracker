@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyTrack - AI-Based Student Study Habit Recommender</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Your existing CSS styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+            color: #4A6CF7;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2D3748;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            border: 2px solid #4A6CF7;
+            color: #4A6CF7;
+        }
+
+        .btn-login:hover {
+            background-color: #4A6CF7;
+            color: white;
+        }
+
+        .btn-register {
+            background-color: #4A6CF7;
+            border: 2px solid #4A6CF7;
+            color: white;
+        }
+
+        .btn-register:hover {
+            background-color: #3a5cd8;
+            border-color: #3a5cd8;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+            margin-bottom: 40px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            color: #2D3748;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #4A5568;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .highlight {
+            color: #4A6CF7;
+            font-weight: 600;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, #c3cfe2, transparent);
+            margin: 40px 0;
+        }
+
+        .features {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: #2D3748;
+            margin-bottom: 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .feature-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            color: #4A6CF7;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            color: #2D3748;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            color: #4A5568;
+        }
+
+        .cta {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .cta-button {
+            background-color: #4A6CF7;
+            color: white;
+            padding: 16px 40px;
+            font-size: 18px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 5px 15px rgba(74, 108, 247, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background-color: #3a5cd8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #718096;
+            font-size: 14px;
+            border-top: 1px solid #E2E8F0;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+                <div class="logo-text">StudyTrack</div>
+            </div>
+            <div class="auth-buttons">
+                <a href="{% url 'login' %}" class="btn btn-login">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-register">Register</a>
+            </div>
+        </header>
+
+        <section class="hero">
+            <h1>Welcome Guest!</h1>
+            <p>Students often struggle to find effective study routines tailored to their learning style, attention span, and engagement. <span class="highlight">StudyTrack</span> uses AI and machine learning to recommend personalized study habits such as <i>study durations</i>, <i>methods</i>, <i>and break patterns</i> based on student behavior and performance.</p>
+        </section>
+
+        <div class="divider"></div>
+
+        <section class="features">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-user-cog"></i></div>
+                    <h3 class="feature-title">Personalized Recommendations</h3>
+                    <p class="feature-desc">Get study routine recommendations tailored specifically to your learning style and preferences.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-project-diagram"></i></div>
+                    <h3 class="feature-title">Learning Pattern Identification</h3>
+                    <p class="feature-desc">Our AI identifies your unique learning patterns using advanced behavior clustering techniques.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3 class="feature-title">Performance Tracking</h3>
+                    <p class="feature-desc">Log your study behavior and receive data-driven suggestions for improvement.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-user-shield"></i></div>
+                    <h3 class="feature-title">Admin Panel</h3>
+                    <p class="feature-desc">Upload data and retrain models through our comprehensive admin interface.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <h3 class="feature-title">Interactive Dashboard</h3>
+                    <p class="feature-desc">Track your performance and log feedback through our intuitive dashboard.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <a href="{% url 'register' %}" class="cta-button">Get Started</a>
+        </section>
+
+        <footer>
+            <p>© 2025 StudyTrack. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Remove or comment out this JavaScript code that was causing the alert
+        /*
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.btn, .cta-button');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    alert('This is a demo page. Functionality would be implemented in a real application.');
+                });
+            });
+        });
+        */
+    </script>
+</body>
+</html>

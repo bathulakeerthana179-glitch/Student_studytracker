@@ -1,0 +1,145 @@
+import os
+from pathlib import Path
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Quick-start development settings - unsuitable for production
+SECRET_KEY = 'django-insecure-+ox-uydhb)cgs^3jsii*x0w$z(g=p3=39-%vbrwa$!b+bg&y#f'
+
+DEBUG = True
+
+ALLOWED_HOSTS = []
+
+# Application definition
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'studenttracker',
+]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+ROOT_URLCONF = 'Studytrack.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',  # ADD THIS LINE - for media files
+            ],
+        },
+    },
+]
+
+WSGI_APPLICATION = 'Studytrack.wsgi.application'
+
+# Database
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'studytrack_new',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        'PORT':'3306',
+    }
+}
+AUTH_USER_MODEL ='studenttracker.User'
+
+# Password validation
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+# Internationalization
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_TZ = True
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+# Media files (Uploaded videos, thumbnails, etc.) - ADD THIS SECTION
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Login/Logout URLs
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/login/'
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'studytrackerai@gmail.com'
+EMAIL_HOST_PASSWORD = 'zvbmcdmoccwbtcty'
+DEFAULT_FROM_EMAIL = 'StudyTrack <noreply@studytrack.com>'
+
+# AI Configuration (Optional)
+OPENAI_API_KEY = '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'
+
+# Security Settings (for development)
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+SECURE_SSL_REDISRECT = False
+
+# File Upload Settings
+FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800  # 50MB
+
+# Custom Settings for StudyTrack
+STUDYTRACK_SETTINGS = {
+    'MAX_VIDEO_SIZE': 500 * 1024 * 1024,  # 500MB
+    'ALLOWED_VIDEO_FORMATS': ['mp4', 'mov', 'avi', 'mkv'],
+    'YOUTUBE_EMBED_URL': 'https://www.youtube.com/embed/',
+    'DEFAULT_COURSE_THUMBNAIL': 'default_course.jpg',
+    'AI_COACH_ENABLED': True,
+    'NOTIFICATION_SCHEDULE': {
+        'morning': '07:00',
+        'afternoon': '13:00', 
+        'evening': '18:00',
+        'night': '22:00'
+    }
+} # Leave empty for now - system will use fallback messages
+
+ 

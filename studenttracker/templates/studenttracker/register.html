@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyTrack - Register</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* your CSS unchanged */
+    body { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .container { display: flex; max-width: 1000px; width: 100%; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); }
+    .left-panel { flex: 1; background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white; padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+    .left-panel h2 { font-size: 28px; margin-bottom: 20px; }
+    .left-panel p { font-size: 16px; margin-bottom: 30px; }
+    .left-panel img { max-width: 100%; margin-top: 20px; }
+    .right-panel { flex: 1; padding: 30px; overflow-y: auto; max-height: 90vh; }
+    .logo { text-align: center; margin-bottom: 20px; }
+    .logo h1 { color: #2575fc; font-size: 32px; font-weight: 700; }
+    .logo span { color: #6a11cb; }
+    .progress-container { width: 100%; background-color: #f0f0f0; border-radius: 10px; margin-bottom: 20px; }
+    .progress-bar { height: 8px; background: linear-gradient(to right, #6a11cb, #2575fc); border-radius: 10px; width: 33.33%; }
+    .progress-steps { display: flex; justify-content: space-between; margin-bottom: 25px; }
+    .step { text-align: center; flex: 1; }
+    .step-number { width: 30px; height: 30px; background-color: #ddd; color: #666; border-radius: 50%; line-height: 30px; margin: 0 auto 8px; font-weight: bold; }
+    .step.active .step-number { background: linear-gradient(to right, #6a11cb, #2575fc); color: white; }
+    .step-text { font-size: 12px; color: #666; }
+    .step.active .step-text { color: #2575fc; font-weight: 500; }
+    .form-section { display: none; }
+    .form-section.active { display: block; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; }
+    .input-with-icon { position: relative; }
+    .input-with-icon i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #6a11cb; }
+    .input-with-icon input, .input-with-icon select { width: 100%; padding: 14px 15px 14px 45px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
+    .btn { padding: 14px 25px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
+    .btn-next, .btn-register { background: linear-gradient(to right, #6a11cb, #2575fc); color: white; }
+    .btn-prev { background: #f0f0f0; color: #333; }
+    .login-link { text-align: center; margin-top: 25px; }
+    .login-link a { color: #2575fc; text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <h2>Join StudyTrack Today</h2>
+      <p>Create your account to start tracking your study progress, manage your assignments, and achieve your academic goals.</p>
+      <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=600&q=80" alt="StudyTrack Registration">
+    </div>
+
+    <div class="right-panel">
+      <div class="logo">
+        <h1>Study<span>Track</span></h1>
+        <p>Create your account</p>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="progress-steps">
+        <div class="step active" data-step="1"><div class="step-number">1</div><div class="step-text">Account</div></div>
+        <div class="step" data-step="2"><div class="step-number">2</div><div class="step-text">Personal</div></div>
+        <div class="step" data-step="3"><div class="step-number">3</div><div class="step-text">Education</div></div>
+      </div>
+
+      <!-- FORM START -->
+      <form method="POST" action="{% url 'register' %}" id="registration-form">
+        {% csrf_token %}
+
+        <!-- Step 1: Account -->
+        <div class="form-section active" id="step-1">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-with-icon">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="password" name="password" placeholder="Create a strong password" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="confirm">Confirm Password</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="confirm" name="confirm" placeholder="Confirm your password" required>
+            </div>
+          </div>
+          <div class="nav-buttons">
+            <div></div>
+            <button type="button" class="btn btn-next" onclick="showStep(2)">Next</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Personal -->
+        <div class="form-section" id="step-2">
+          <div class="name-fields">
+            <div class="form-group">
+              <label for="first_name">First Name</label>
+              <div class="input-with-icon">
+                <i class="fas fa-user"></i>
+                <input type="text" id="first_name" name="first_name" placeholder="Enter your first name" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="last_name">Last Name</label>
+              <div class="input-with-icon">
+                <i class="fas fa-user"></i>
+                <input type="text" id="last_name" name="last_name" placeholder="Enter your last name" required>
+              </div>
+            </div>
+          </div>
+          <div class="nav-buttons">
+            <button type="button" class="btn btn-prev" onclick="showStep(1)">Previous</button>
+            <button type="button" class="btn btn-next" onclick="showStep(3)">Next</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Education -->
+        <div class="form-section" id="step-3">
+          <div class="form-group">
+            <label for="education">Education</label>
+            <div class="input-with-icon">
+              <i class="fas fa-graduation-cap"></i>
+              <input type="text" id="education" name="education" placeholder="Enter your education level">
+            </div>
+          </div>
+          <div class="nav-buttons">
+            <button type="button" class="btn btn-prev" onclick="showStep(2)">Previous</button>
+            <button type="submit" class="btn btn-register">Register</button>
+          </div>
+        </div>
+      </form>
+      <!-- FORM END -->
+
+      <div class="login-link">
+        Already have an account? <a href="{% url 'login' %}">Login here</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentStep = 1;
+    const totalSteps = 3;
+    function showStep(step) {
+      document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById(`step-${step}`).classList.add('active');
+      document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+      const progressPercent = ((step - 1) / (totalSteps - 1)) * 100;
+      document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+      currentStep = step;
+    }
+  </script>
+</body>
+</html>

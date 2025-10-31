@@ -1,0 +1,406 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - StudyTrack</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f7fb;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background-color: #2f3542;
+      color: #fff;
+      position: fixed;
+      height: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 22px;
+      border-bottom: 1px solid #57606f;
+      padding-bottom: 10px;
+      word-wrap: break-word;
+    }
+
+    .sidebar a {
+      display: block;
+      text-decoration: none;
+      color: #fff;
+      font-size: 16px;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover, .sidebar a.active {
+      background-color: #57606f;
+    }
+
+    /* Main container */
+    .main {
+      margin-left: 270px;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      max-width: calc(100% - 270px);
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    /* Student Card */
+    .student-card {
+      background: #fff;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 100%;
+    }
+
+    .student-card h3 {
+      margin: 0 0 10px 0;
+      color: #222;
+      line-height: 1.4;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+    }
+
+    .student-email {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 5px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+    }
+
+    .student-card h4 {
+      margin: 10px 0 5px 0;
+      color: #3742fa;
+    }
+
+    ul {
+      padding-left: 20px;
+      word-wrap: break-word;
+    }
+
+    ul li {
+      margin-bottom: 6px;
+      word-wrap: break-word;
+    }
+
+    /* Video sections */
+    .video-section {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      border-left: 4px solid #3742fa;
+    }
+
+    .video-item {
+      background: white;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #e9ecef;
+    }
+
+    .video-preview {
+      color: #e74c3c;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    /* Forms */
+    form {
+      margin-top: 15px;
+      background: #f1f2f6;
+      padding: 15px;
+      border-radius: 8px;
+      word-wrap: break-word;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #2f3542;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #57606f;
+    }
+
+    .form-section {
+      margin-top: 10px;
+    }
+
+    .empty {
+      text-align: center;
+      color: #555;
+    }
+
+    /* Success Popup */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #4CAF50;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    .tab-container {
+      margin: 20px 0;
+    }
+
+    .tab-buttons {
+      display: flex;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .tab-button {
+      padding: 10px 20px;
+      background: #f1f2f6;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px 5px 0 0;
+      margin-right: 5px;
+    }
+
+    .tab-button.active {
+      background: #2f3542;
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 20px;
+      background: white;
+      border-radius: 0 0 5px 5px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+        padding: 15px;
+      }
+      .main {
+        margin-left: 220px;
+        max-width: calc(100% - 220px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+      .main {
+        margin-left: 0;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="{% url 'admin_dashboard' %}" class="active">Dashboard</a>
+    <a href="{% url 'add_course' %}">Add Course</a>
+    <a href="{% url 'add_video' %}">Add Video</a>
+    <a href="{% url 'add_task' %}">Add Task</a>
+    <a href="{% url 'logout' %}">Logout</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <h1>⚙️ Admin Dashboard</h1>
+    <h2>All Registered Students</h2>
+
+    {% for student in students %}
+    <div class="student-card">
+      <h3>{{ student.first_name }} {{ student.last_name }}</h3>
+      <div class="student-email">{{ student.email }}</div>
+      <p><strong>Education:</strong> {{ student.education }}</p>
+
+      <!-- Student Courses -->
+      <h4>📚 Enrolled Courses</h4>
+      <div class="tab-container">
+        <div class="tab-buttons">
+          <button class="tab-button active" onclick="openTab(event, 'courses-{{ student.id }}')">Courses</button>
+          <button class="tab-button" onclick="openTab(event, 'videos-{{ student.id }}')">Video Progress</button>
+          <button class="tab-button" onclick="openTab(event, 'tasks-{{ student.id }}')">Tasks</button>
+        </div>
+
+        <!-- Courses Tab -->
+        <div id="courses-{{ student.id }}" class="tab-content active">
+          <ul>
+            {% for enrollment in student.enrollments.all %}
+              <li>
+                <strong>{{ enrollment.course.title }}</strong> | 
+                {{ enrollment.progress }}% complete |
+                Level: {{ enrollment.course.level }}
+                {% if enrollment.completed_at %}
+                  ✅ Completed on {{ enrollment.completed_at|date:"M d, Y" }}
+                {% endif %}
+              </li>
+            {% empty %}
+              <li>No courses enrolled yet.</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Video Progress Tab -->
+        <div id="videos-{{ student.id }}" class="tab-content">
+          {% for enrollment in student.enrollments.all %}
+            <div class="video-section">
+              <h5>{{ enrollment.course.title }}</h5>
+              {% for section in enrollment.course.sections.all %}
+                <div style="margin-left: 15px;">
+                  <strong>{{ section.title }}</strong>
+                  <ul>
+                    {% for video in section.videos.all %}
+                      <li class="video-item">
+                        {{ video.title }} ({{ video.duration }}s)
+                        {% if video.is_preview %}<span class="video-preview">PREVIEW</span>{% endif %}
+                        - 
+                        {% for progress in student.videoprogress_set.all %}
+                          {% if progress.video == video %}
+                            {% if progress.is_completed %}✅ Completed{% else %}⏳ {{ progress.watched_duration }}s watched{% endif %}
+                          {% endif %}
+                        {% endfor %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endfor %}
+            </div>
+          {% empty %}
+            <p>No video progress to show.</p>
+          {% endfor %}
+        </div>
+
+        <!-- Tasks Tab -->
+        <div id="tasks-{{ student.id }}" class="tab-content">
+          <ul>
+            {% for task in student.tasks.all %}
+              <li>{{ task.title }} - {{ task.status }} (Deadline: {{ task.deadline }})</li>
+            {% empty %}
+              <li>No tasks assigned yet.</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="form-section">
+        <h4>🚀 Quick Actions</h4>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <a href="{% url 'add_course' %}?student_id={{ student.id }}" style="text-decoration: none;">
+            <button type="button">Enroll in Course</button>
+          </a>
+          <a href="{% url 'add_video' %}?student_id={{ student.id }}" style="text-decoration: none;">
+            <button type="button">Add Video Content</button>
+          </a>
+          <a href="{% url 'add_task' %}?student_id={{ student.id }}" style="text-decoration: none;">
+            <button type="button">Assign Task</button>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="empty">No students registered yet.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Success Popup -->
+  <div id="successPopup" class="popup">
+    <span id="popupMessage"></span>
+  </div>
+
+  <script>
+    {% if messages %}
+      {% for message in messages %}
+        showPopup("{{ message }}");
+      {% endfor %}
+    {% endif %}
+
+    function showPopup(message) {
+      const popup = document.getElementById('successPopup');
+      const popupMessage = document.getElementById('popupMessage');
+      
+      popupMessage.textContent = message;
+      popup.style.display = 'block';
+      
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 3000);
+    }
+
+    function openTab(evt, tabName) {
+      const tabcontent = document.getElementsByClassName("tab-content");
+      for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+
+      const tabbuttons = document.getElementsByClassName("tab-button");
+      for (let i = 0; i < tabbuttons.length; i++) {
+        tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+      }
+
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+  </script>
+</body>
+</html>

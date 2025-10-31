@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Task - StudyTrack</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f5f6fa;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #2f3542;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      position: fixed;
+      height: 100%;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #57606f;
+      padding-bottom: 10px;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #fff;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      display: block;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+      background-color: #57606f;
+    }
+
+    .main {
+      margin-left: 270px;
+      padding: 40px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #2f3542;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      max-width: 600px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #2f3542;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      background-color: #2f3542;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      margin-top: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #57606f;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="{% url 'admin_dashboard' %}">Dashboard</a>
+    <a href="{% url 'add_course' %}">Add Course</a>
+    <a href="{% url 'add_task' %}" class="active">Add Task</a>
+    <a href="{% url 'logout' %}">Logout</a>
+  </div>
+
+  <div class="main">
+    <h1>Assign New Task</h1>
+    <form method="POST">
+      {% csrf_token %}
+      <label for="student">Select Student:</label>
+      <select name="student_id" required>
+        {% for student in students %}
+        <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }} ({{ student.email }})</option>
+        {% endfor %}
+      </select>
+
+      <label for="course">Select Course:</label>
+      <select name="course_id" required>
+        {% for course in courses %}
+        <option value="{{ course.id }}">{{ course.name }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="title">Task Title:</label>
+      <input type="text" name="title" required>
+
+      <label for="description">Task Description:</label>
+      <textarea name="description" rows="4" placeholder="Enter task details..."></textarea>
+
+      <label for="deadline">Deadline:</label>
+      <input type="date" name="deadline" required>
+
+      <label for="status">Status:</label>
+      <select name="status">
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
+      </select>
+
+      <button type="submit">Assign Task</button>
+    </form>
+  </div>
+</body>
+</html>
