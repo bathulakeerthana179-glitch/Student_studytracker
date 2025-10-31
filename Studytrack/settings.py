@@ -116,7 +116,7 @@ EMAIL_HOST_PASSWORD = 'zvbmcdmoccwbtcty'
 DEFAULT_FROM_EMAIL = 'StudyTrack <noreply@studytrack.com>'
 
 # AI Configuration (Optional)
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Security Settings (for development)
 SESSION_COOKIE_SECURE = False
